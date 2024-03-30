@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{FCB14E1D-5E82-418E-F12C-806C79B1F3CE}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Input.cs">
+    <Files>
+      <File FileName="Assets/Movement.cs" Line="18" Column="21" />
+      <File FileName="Assets/Input.cs" Line="19" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="2-half-d-character-controller" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Input.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5b6f4de6-7446-42d5-ad97-1b0248a0e381" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
