@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [Header("Attach game objects")]
     public Rigidbody rb;
-    public float moveSpeed, jumpForce;
+    public GameObject foot;
+
+    [Header("Movement Stats")]
+    public float moveSpeed;
+    public float jumpForce;
+    public bool isGrounded;
+
+   
 
     private Vector2 moveInput;
     void Start()
@@ -22,5 +30,33 @@ public class Movement : MonoBehaviour
         moveInput.Normalize();
 
         rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
+
+        while (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            Debug.Log("trying to jump");
+            rb.velocity += new Vector3(0f, jumpForce, 0f);
+            
+        }
+      
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            Debug.Log("isGrounded set to TRUE");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isGrounded = false;
+            Debug.Log("isGrounded set to FALSE");
+        }
+    }
+
+
 }
