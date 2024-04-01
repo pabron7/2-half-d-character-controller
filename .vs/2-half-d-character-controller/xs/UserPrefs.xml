@@ -1,15 +1,14 @@
 ﻿<Properties StartupConfiguration="{FCB14E1D-5E82-418E-F12C-806C79B1F3CE}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Input.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Movement.cs">
     <Files>
-      <File FileName="Assets/Movement.cs" Line="18" Column="21" />
-      <File FileName="Assets/Input.cs" Line="19" Column="2" />
+      <File FileName="Assets/Movement.cs" Line="50" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="2-half-d-character-controller" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Input.cs" selected="True" />
+              <Node name="Movement.cs" selected="True" />
             </Node>
           </Node>
         </State>

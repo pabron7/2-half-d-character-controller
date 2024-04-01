@@ -34,8 +34,12 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Debug.Log("trying to jump");
-            rb.velocity += new Vector3(0f, jumpForce, 0f);
-            
+            rb.velocity += new Vector3(0f, jumpForce, 0f);  
+        }
+        //reduces jump velocity when button is released
+        else if (Input.GetButtonUp("Jump")){ 
+            rb.velocity -= new Vector3(0f, jumpForce * 0.75f, 0f);
+
         }
       
     }
@@ -47,6 +51,7 @@ public class Movement : MonoBehaviour
             isGrounded = true;
             Debug.Log("isGrounded set to TRUE");
         }
+        
     }
 
     private void OnTriggerExit(Collider other)
