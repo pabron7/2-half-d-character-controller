@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
 
         rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
 
-        while (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Debug.Log("trying to jump");
             rb.velocity += new Vector3(0f, jumpForce, 0f);
