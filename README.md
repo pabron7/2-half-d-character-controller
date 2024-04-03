@@ -11,6 +11,7 @@ a tool that comes with a ready-to-go topdown 2D character in the 3D environment.
 ### WHAT'S NEXT?
 * Roll, Dash and Run functionalities
 * 2D character Sprite and Animations
+* State system
 
 ##### MAYBE
 * hanging functionality
