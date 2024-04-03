@@ -41,12 +41,12 @@ public class Movement : MonoBehaviour
         }
         //reduces jump velocity when button is released
         else if (Input.GetButtonUp("Jump")){ 
-            rb.velocity -= new Vector3(0f, jumpForce * 0.40f, 0f); Debug.Log("jump force decreased");
+            rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
         }
       
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
@@ -54,16 +54,12 @@ public class Movement : MonoBehaviour
             remainingJumpTimes = maxJumpTimes;      //refreshes jump times upon landing
             Debug.Log("isGrounded set to TRUE");
         }
-        
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Ground"))
+        else
         {
             isGrounded = false;
-            Debug.Log("isGrounded set to FALSE");
+            Debug.Log("isGrounded returned to FALSE");
         }
+        
     }
 
 
