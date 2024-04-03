@@ -1316,6 +1316,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1546933852981400671, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2338753449652539673, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.37
@@ -1420,6 +1424,14 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: c545b8c3c706341a795f9c706d685905, type: 2}
+    - target: {fileID: 8378633693643481879, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378633693643481879, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
+      propertyPath: m_CastShadows
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8659460569256210356, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
       propertyPath: jumpForce
       value: 5
@@ -1430,7 +1442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8659460569256210356, guid: ff6254c36b2874d89b3e408b5b2bb1e6, type: 3}
       propertyPath: maxJumpTimes
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
