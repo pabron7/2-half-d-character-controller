@@ -27,10 +27,13 @@ public class Movement : MonoBehaviour
     public float rollCooldown;
     bool isRolling;
 
+    TrailRenderer trailRenderer;
+
     private Vector2 moveInput;
     void Start()
     {
         remainingJumpTimes = maxJumpTimes;
+        trailRenderer = GetComponent<TrailRenderer>();
     }
 
     // Update is called once per frame
@@ -73,9 +76,11 @@ public class Movement : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
+        trailRenderer.emitting = true;
         rb.velocity = new Vector3(moveInput.x * dashSpeed, rb.velocity.y, moveInput.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
         isDashing = false;
+        trailRenderer.emitting = false;
     }
 
     private IEnumerator Roll()
