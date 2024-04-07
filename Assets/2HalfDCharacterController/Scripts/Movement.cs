@@ -36,32 +36,19 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDashing){ return;}
 
-        if (isRolling){ return;}
+        //override any other movement action while rolling&dashing
+        if (isDashing || isRolling){ return;}  
 
-        moveInput.x = Input.GetAxis("Horizontal");
-        moveInput.y = Input.GetAxis("Vertical");
+        ReadInput();
 
         moveInput.Normalize();
 
-        rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
+        Move();
 
         Jump();
 
-        if (Input.GetButtonDown("Dash"))
-        {          
-            if(isGrounded == true)
-            {
-                Debug.Log("trying to roll");
-                StartCoroutine(Roll());
-            }
-            else 
-            {
-                Debug.Log("trying to dash");
-                StartCoroutine(Dash());
-            }          
-        }  
+        DashRoll();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -120,5 +107,33 @@ public class Movement : MonoBehaviour
         {
             rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
         }
+    }
+
+    private void Move()
+    {
+        rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
+    }
+
+    private void DashRoll()
+    {
+        if (Input.GetButtonDown("Dash"))
+        {
+            if (isGrounded == true)
+            {
+                Debug.Log("trying to roll");
+                StartCoroutine(Roll());
+            }
+            else
+            {
+                Debug.Log("trying to dash");
+                StartCoroutine(Dash());
+            }
+        }
+    }
+
+    private void ReadInput()
+    {
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
     }
 }
