@@ -6,12 +6,13 @@ a tool that comes with a ready-to-go isometric topdown 2D character in the 3D en
 ### HOW DOES IT WORK?
 * It reads 2 axis movement from "Horizontal" and "Vertical" axis
 * Simply adds velocity to Player's rigid body. Speed can be edited through the inspector panel
-* Tracks the ground to jump, dash, and roll. Upon landing, it refreshes the jumper count which can be edited through the inspector panel. _Jumps can be kept short when the button is released during action._ Also decides to either dash or roll according to the state of _isDashing_.
+* Tracks the ground to jump, dash, and roll. Upon landing, it refreshes the jumper count which can be edited through the inspector panel. _Jumps can be kept short when the button is released during action._ Also decides to either dash or roll according to the state of _isGrounded_. Uses key button "Dash" to invoke either dash or roll.
 * Activates the trail renderer while dashing.
 
 ###### USEFUL LINKS
-[Coroutine & IEnumerator](https://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html "Unity Documentation")
----
+> [Coroutine & IEnumerator](https://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html "Unity Documentation")
+
+***
 ### WHAT'S NEXT?
 * Run
 * 2D character Sprite and Animations
