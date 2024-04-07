@@ -15,12 +15,17 @@ public class Movement : MonoBehaviour
     int remainingJumpTimes;
     bool isGrounded;
 
-    [Header("Dash, Roll")]
+    [Header("Dash")]
     public float dashSpeed;
     public float dashDuration;
     public float dashCooldown;
     bool isDashing;
 
+    [Header("Roll")]
+    public float rollSpeed;
+    public float rollDuration;
+    public float rollCooldown;
+    bool isRolling;
 
     private Vector2 moveInput;
     void Start()
@@ -31,38 +36,35 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDashing)
-        {
-            return;
-        }
+        if (isDashing){ return;}
+
+        if (isRolling){ return;}
 
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
 
-        //moveInput.Normalize();
+        moveInput.Normalize();
 
         rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
 
-        if (Input.GetButtonDown("Jump") && remainingJumpTimes > 1)
-        {
-            Debug.Log("trying to jump");
-            rb.velocity += new Vector3(0f, jumpForce, 0f);
-            remainingJumpTimes--;
-        }
-        //reduces jump velocity when button is released
-        else if (Input.GetButtonUp("Jump")){ 
-            rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
-        }
+        Jump();
 
         if (Input.GetButtonDown("Dash"))
-        {
-            Debug.Log("trying to dash");
-            StartCoroutine(Dash());
-        }
-      
+        {          
+            if(isGrounded == true)
+            {
+                Debug.Log("trying to roll");
+                StartCoroutine(Roll());
+            }
+            else 
+            {
+                Debug.Log("trying to dash");
+                StartCoroutine(Dash());
+            }          
+        }  
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
@@ -70,12 +72,15 @@ public class Movement : MonoBehaviour
             remainingJumpTimes = maxJumpTimes;      //refreshes jump times upon landing
             Debug.Log("isGrounded set to TRUE");
         }
-        else
-        {
-            isGrounded = false;
-            Debug.Log("isGrounded returned to FALSE");
-        }
+    }
         
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isGrounded = false;     
+            Debug.Log("isGrounded set to FALSE");
+        }
     }
 
     private IEnumerator Dash()
@@ -86,5 +91,34 @@ public class Movement : MonoBehaviour
         isDashing = false;
     }
 
+    private IEnumerator Roll()
+    {
+        if (Input.GetButtonDown("Dash"))
+        {
+        isRolling = true;
+        rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
+        yield return new WaitForSeconds(rollDuration);
+        isRolling = false;
+        }
+        else if (Input.GetButtonUp("Dash"))
+        {
+            Debug.Log("reducing roll speed");
+            rb.velocity -= new Vector3(moveInput.x * 0.15f, rb.velocity.y, moveInput.y * 0.15f);
+        }
+    }
 
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && remainingJumpTimes > 1)
+        {
+            Debug.Log("trying to jump");
+            rb.velocity += new Vector3(0f, jumpForce, 0f);
+            remainingJumpTimes--;
+        }
+        //reduces jump velocity when button is released
+        else if (Input.GetButtonUp("Jump")  && isGrounded ==false)
+        {
+            rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
+        }
+    }
 }
