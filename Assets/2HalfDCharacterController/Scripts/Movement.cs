@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
     [Header("Attach game objects")]
     public Rigidbody rb;
     public GameObject foot;
+    public GameObject sidesCheck;
 
     [Header("Movement Stats")]
     public float moveSpeed;
@@ -41,7 +42,7 @@ public class Movement : MonoBehaviour
     {
 
         //override any other movement action while rolling&dashing
-        if (isDashing || isRolling){ return;}  
+        if (isDashing || isRolling){return;}  
 
         ReadInput();
 
@@ -54,22 +55,36 @@ public class Movement : MonoBehaviour
         DashRoll();
     }
 
-    private void OnTriggerEnter(Collider other)
+   // private void OnTriggerEnter(Collider other)
+  //  {
+   //     if (other.CompareTag("WallRide"))
+   //     {
+   //         Debug.Log("wall ride available");
+    //    }
+   // }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            remainingJumpTimes = maxJumpTimes;      //refreshes jump times upon landing
-            Debug.Log("isGrounded set to TRUE");
+        {   
+            if (isGrounded == false)
+            {
+                isGrounded = true;
+                
+                remainingJumpTimes = maxJumpTimes;
+
+                Debug.Log("isGrounded set to TRUE && Jump Times are refreshed!");
+            }
+          
         }
     }
-        
-    private void OnTriggerExit(Collider other)
+
+   private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
             isGrounded = false;     
-            Debug.Log("isGrounded set to FALSE");
+            Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
         }
     }
 
