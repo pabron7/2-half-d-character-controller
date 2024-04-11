@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/2HalfDCharacterController/Scripts/Movement.cs" />
+    <Compile Include="Assets/2HalfDCharacterController/Scripts/CheckGround.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -1,15 +1,18 @@
 ﻿<Properties StartupConfiguration="{FCB14E1D-5E82-418E-F12C-806C79B1F3CE}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/2HalfDCharacterController/Scripts/Movement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/2HalfDCharacterController/Scripts/CheckGround.cs">
     <Files>
-      <File FileName="Assets/2HalfDCharacterController/Scripts/Movement.cs" Line="73" Column="9" />
+      <File FileName="Assets/2HalfDCharacterController/Scripts/Movement.cs" Line="83" Column="6" />
+      <File FileName="Assets/2HalfDCharacterController/Scripts/CheckGround.cs" Line="15" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="2-half-d-character-controller" expanded="True">
-            <Node name="Assets" expanded="True" selected="True">
+            <Node name="Assets" expanded="True">
               <Node name="2HalfDCharacterController" expanded="True">
-                <Node name="Scripts" expanded="True" />
+                <Node name="Scripts" expanded="True">
+                  <Node name="CheckGround.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>

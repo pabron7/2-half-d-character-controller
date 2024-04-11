@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     public float jumpForce;
     public int maxJumpTimes;
     int remainingJumpTimes;
-    bool isGrounded;
+    public bool isGrounded;
 
     [Header("Dash")]
     public float dashSpeed;
@@ -79,14 +79,14 @@ public class Movement : MonoBehaviour
         }
     }
 
-   private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Ground"))
-        {
-            isGrounded = false;     
-            Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
-        }
-    }
+   //private void OnTriggerExit(Collider other)
+   // {
+   //     if (other.CompareTag("Ground"))
+    //    {
+   //         isGrounded = false;     
+     //       Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
+      //  }
+  //  }
 
     private IEnumerator Dash()
     {
