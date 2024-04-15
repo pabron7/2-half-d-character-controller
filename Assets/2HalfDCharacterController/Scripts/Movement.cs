@@ -9,24 +9,39 @@ public class Movement : MonoBehaviour
     public GameObject foot;
     public GameObject sidesCheck;
 
+    [Header("Character Sprites")]
+    public Sprite characterFront; 
+    public Sprite characterBack;
+    public Sprite characterLeft;
+    public Sprite characterRight;
+
+    [Header("CharacterStats")]
+    public bool isDashing;
+    public bool isRolling;
+    public bool isGrounded;
+    public bool isMoving;
+    public bool isMovingUp;
+    public bool isMovingLef;
+    public int remainingJumpTimes;
+
     [Header("Movement Stats")]
     public float moveSpeed;
     public float jumpForce;
     public int maxJumpTimes;
-    int remainingJumpTimes;
-    public bool isGrounded;
+    
+    
 
     [Header("Dash")]
     public float dashSpeed;
     public float dashDuration;
     public float dashCooldown;
-    bool isDashing;
+    
 
     [Header("Roll")]
     public float rollSpeed;
     public float rollDuration;
     public float rollCooldown;
-    bool isRolling;
+    
 
     TrailRenderer trailRenderer;
 
