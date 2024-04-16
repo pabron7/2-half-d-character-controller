@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     public bool isGrounded;
     public bool isMoving;
     public bool isMovingUp;
-    public bool isMovingLef;
+    public bool isMovingRight;
     public int remainingJumpTimes;
 
     [Header("Movement Stats")]
@@ -147,6 +147,7 @@ public class Movement : MonoBehaviour
     private void Move()
     {
         rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
+        FlipCharacter();
     }
 
     private void DashRoll()
@@ -170,5 +171,25 @@ public class Movement : MonoBehaviour
     {
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
+    }
+
+    private void FlipCharacter()
+    {
+        if (moveInput.y > 0.01 && isMovingUp == false)
+        {
+            isMovingUp = true;
+        }
+        if (moveInput.y < 0 && isMovingUp == true)
+        {
+            isMovingUp = false;
+        }
+        if (moveInput.x > 0.01 && isMovingRight == false)
+        {
+            isMovingRight = true;
+        }
+        if (moveInput.x < 0 && isMovingRight == true)
+        {
+            isMovingRight = false;
+        }
     }
 }
