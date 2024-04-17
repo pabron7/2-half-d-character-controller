@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour
     public GameObject sidesCheck;
 
     [Header("Character Sprites")]
-    public Sprite characterFront; 
+    public Sprite characterFront;
     public Sprite characterBack;
     public Sprite characterLeft;
     public Sprite characterRight;
@@ -28,20 +28,16 @@ public class Movement : MonoBehaviour
     public float moveSpeed;
     public float jumpForce;
     public int maxJumpTimes;
-    
-    
 
     [Header("Dash")]
     public float dashSpeed;
     public float dashDuration;
     public float dashCooldown;
-    
 
     [Header("Roll")]
     public float rollSpeed;
     public float rollDuration;
     public float rollCooldown;
-    
 
     TrailRenderer trailRenderer;
 
@@ -57,11 +53,9 @@ public class Movement : MonoBehaviour
     {
 
         //override any other movement action while rolling&dashing
-        if (isDashing || isRolling){return;}  
+        if (isDashing || isRolling) { return; }
 
         ReadInput();
-
-        moveInput.Normalize();
 
         Move();
 
@@ -70,38 +64,21 @@ public class Movement : MonoBehaviour
         DashRoll();
     }
 
-   // private void OnTriggerEnter(Collider other)
-  //  {
-   //     if (other.CompareTag("WallRide"))
-   //     {
-   //         Debug.Log("wall ride available");
-    //    }
-   // }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))
-        {   
+        {
             if (isGrounded == false)
             {
                 isGrounded = true;
-                
+
                 remainingJumpTimes = maxJumpTimes;
 
                 Debug.Log("isGrounded set to TRUE && Jump Times are refreshed!");
             }
-          
+
         }
     }
-
-   //private void OnTriggerExit(Collider other)
-   // {
-   //     if (other.CompareTag("Ground"))
-    //    {
-   //         isGrounded = false;     
-     //       Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
-      //  }
-  //  }
 
     private IEnumerator Dash()
     {
@@ -117,10 +94,10 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetButtonDown("Dash"))
         {
-        isRolling = true;
-        rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
-        yield return new WaitForSeconds(rollDuration);
-        isRolling = false;
+            isRolling = true;
+            rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
+            yield return new WaitForSeconds(rollDuration);
+            isRolling = false;
         }
         else if (Input.GetButtonUp("Dash"))
         {
@@ -138,7 +115,7 @@ public class Movement : MonoBehaviour
             remainingJumpTimes--;
         }
         //reduces jump velocity when button is released
-        else if (Input.GetButtonUp("Jump")  && isGrounded ==false)
+        else if (Input.GetButtonUp("Jump") && isGrounded == false)
         {
             rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
         }
@@ -148,6 +125,7 @@ public class Movement : MonoBehaviour
     {
         rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
         FlipCharacter();
+        checkMovement();
     }
 
     private void DashRoll()
@@ -171,6 +149,8 @@ public class Movement : MonoBehaviour
     {
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
+
+        moveInput.Normalize();
     }
 
     private void FlipCharacter()
@@ -190,6 +170,26 @@ public class Movement : MonoBehaviour
         if (moveInput.x < 0 && isMovingRight == true)
         {
             isMovingRight = false;
+        }
+    }
+
+    private void checkMovement()
+    {  
+        if (moveInput.magnitude > 0)
+            {
+                if(isMoving == false)
+                {
+                    isMoving = true;
+                    Debug.Log("isMoving set to TRUE!");
+                }
+            }            
+        if( rb.velocity.x == 0 && rb.velocity.z == 0)
+        {
+            if(isMoving == true)
+            {
+                isMoving = false;
+                Debug.Log("isMoving set to FALSE");
+            }
         }
     }
 }
