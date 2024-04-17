@@ -11,9 +11,9 @@ a tool that comes with a ready-to-go isometric topdown 2D character in the 3D en
 ---
 ### INSTRUCTIONS
 Create a new GameObject that represents your character.
-> Add rigid body, collider, trail renderer and attach _Movement_ script.
-> Create another collider that represents the feet of your character. Place it below your character wisely. Then, attach _CheckGround_ script to the feet object.
-> Attach required object references in the inspector.
+Add rigid body, collider, trail renderer and attach _Movement_ script.
+Create another collider that represents the feet of your character. Place it below your character wisely. Then, attach _CheckGround_ script to the feet object.
+Attach required object references in the inspector.
 Adjust Input Manager. Make sure you have key references for the following fields; Horizontal, Vertical axis; Dash, Jump.
 Create a new Tag, "Ground" and tag it to your terrain or any surface you want your character to move on.
 It should work now.
