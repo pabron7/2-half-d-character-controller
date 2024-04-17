@@ -1,7 +1,9 @@
-# 2.5D CHARACTER CONTROLLER by Pabron
+# 2.5D CHARACTER CONTROLLER
 ***
 a tool that comes with a ready-to-go isometric topdown 2D character in the 3D environment. Designed for controller. However, it works with any input using Unity Input Manager.
 > Similar games are; Don't Starve, Cult of The Lamb, Paper Mario
+###### TECHNOLOGY
+Unity, C#
 ---
 ### HOW DOES IT WORK?
 * It reads 2 axis movement from "Horizontal" and "Vertical" axis
