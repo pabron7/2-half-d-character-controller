@@ -69,13 +69,13 @@ public class Movement : MonoBehaviour
         Jump();
 
         DashRoll();
+
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
-            CheckIdle();
             if (isGrounded == false)
             {
                 isGrounded = true;
@@ -86,12 +86,14 @@ public class Movement : MonoBehaviour
 
                 Debug.Log("isGrounded set to TRUE && Jump Times are refreshed!");
             }
+            CheckIdle();
         }
     }
 
     private IEnumerator Dash()
     {
         isDashing = true;
+        isMoving = false;
         isIdle = false;
         trailRenderer.emitting = true;
         rb.velocity = new Vector3(moveInput.x * dashSpeed, rb.velocity.y, moveInput.y * dashSpeed);
@@ -105,6 +107,7 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Dash"))
         {
             isRolling = true;
+            isMoving = false;
             isIdle = false;
             rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
             yield return new WaitForSeconds(rollDuration);
@@ -119,6 +122,7 @@ public class Movement : MonoBehaviour
             Debug.Log("trying to jump");
             isJumping = true;
             isFalling = false;
+            isIdle = false;
             rb.velocity += new Vector3(0f, jumpForce, 0f);
             remainingJumpTimes--;
         }
@@ -146,7 +150,7 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
         }
             checkRotation();
-            CheckMovement();   
+            CheckMovement();
     }
 
     private void DashRoll()
@@ -202,14 +206,14 @@ public class Movement : MonoBehaviour
     {  
         if (moveInput.magnitude > 0)
             {
-                if(isMoving == false)
+                if(isMoving == false && isGrounded)
                 {
                     isMoving = true;
                     isIdle = false;
                     Debug.Log("isMoving set to TRUE!");
                 }
             }            
-        if( rb.velocity.x == 0 && rb.velocity.z == 0)
+        if (rb.velocity.x == 0 && rb.velocity.z == 0)
         {
             if(isMoving == true)
             {
@@ -218,8 +222,10 @@ public class Movement : MonoBehaviour
                 Debug.Log("isMoving set to FALSE & isIdle set to TRUE");
             }
         }
-        CheckIdle();
-
+        if (!isGrounded)
+        {
+            isMoving = false;
+        }
     }
 
     private void Run()
@@ -243,9 +249,12 @@ public class Movement : MonoBehaviour
     {
         if(isGrounded == true && isIdle == false)
         {
-            if(isMoving && isRunning && isRolling && isDashing == false)
+            if(!isMoving && !isRunning && !isRolling)
             {
-                isIdle = true;
+                if(isGrounded == true)
+                {
+                    isIdle = true;
+                }    
             }
         }
     }
