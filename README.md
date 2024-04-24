@@ -1,9 +1,21 @@
 # 2.5D CHARACTER CONTROLLER
 ***
-a tool that comes with a ready-to-go isometric topdown 2D character in the 3D environment. Designed for controller. However, it works with any input using Unity Input Manager.
+a tool that comes with a ready-to-go isometric top-down 2D character in the 3D environment. Designed for controller. However, it works with any input using Unity Input Manager. Most of the features are editable from the inspector.
 > Similar games are; Don't Starve, Cult of The Lamb, Paper Mario
 ###### TECHNOLOGY
 > Unity, C#
+---
+###FEATURES
+* 2 Axis movement
+* Jump, Multiple Jump (Editable)
+* Run
+* Dash
+* Roll
+* Ground Detection
+* 3D Collider
+* State Tracker
+* Sprite Updater (According to the current movement rotation)
+* Trail Renderer (While Dashing)
 ---
 ### HOW DOES IT WORK?
 * It reads 2 axis movement from "Horizontal" and "Vertical" axis
@@ -25,9 +37,7 @@ a tool that comes with a ready-to-go isometric topdown 2D character in the 3D en
 
 ***
 ### WHAT'S NEXT?
-* Run
-* 2D character Sprite and Animations
-* State system
+* 2D character Sprites and Animations
 * Particle system for various states
 
 ##### MAYBE
