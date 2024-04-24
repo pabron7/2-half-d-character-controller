@@ -13,7 +13,7 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 * Roll
 * Ground Detection
 * 3D Collider
-* State Tracker
+* State Tracker (Dashing, Rolling, Grounded, Moving, Running, Idle, Falling, Jumping; 4 Side Movement Rotation Track)
 * Sprite Updater (According to the current movement rotation)
 * Trail Renderer (While Dashing)
 ---
@@ -42,5 +42,6 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 
 ##### MAYBE
 * hanging functionality
+* wallride
 * melee and ranged combat
 * health, energylike things
