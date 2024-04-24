@@ -24,6 +24,9 @@ public class Movement : MonoBehaviour
     public bool isMovingUp;
     public bool isMovingRight;
     public bool isRunning;
+    public bool isIdle;
+    public bool isFalling;
+    public bool isJumping;
     public int remainingJumpTimes;
 
     [Header("Movement Stats")]
@@ -72,9 +75,12 @@ public class Movement : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
+            CheckIdle();
             if (isGrounded == false)
             {
                 isGrounded = true;
+                isJumping = false;
+                isFalling = false;
 
                 remainingJumpTimes = maxJumpTimes;
 
@@ -86,6 +92,7 @@ public class Movement : MonoBehaviour
     private IEnumerator Dash()
     {
         isDashing = true;
+        isIdle = false;
         trailRenderer.emitting = true;
         rb.velocity = new Vector3(moveInput.x * dashSpeed, rb.velocity.y, moveInput.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
@@ -98,14 +105,10 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Dash"))
         {
             isRolling = true;
+            isIdle = false;
             rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
             yield return new WaitForSeconds(rollDuration);
             isRolling = false;
-        }
-        else if (Input.GetButtonUp("Dash"))
-        {
-            Debug.Log("reducing roll speed");
-            rb.velocity -= new Vector3(moveInput.x * 0.15f, rb.velocity.y, moveInput.y * 0.15f);
         }
     }
 
@@ -114,6 +117,8 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && remainingJumpTimes > 1)
         {
             Debug.Log("trying to jump");
+            isJumping = true;
+            isFalling = false;
             rb.velocity += new Vector3(0f, jumpForce, 0f);
             remainingJumpTimes--;
         }
@@ -121,6 +126,8 @@ public class Movement : MonoBehaviour
         else if (Input.GetButtonUp("Jump") && isGrounded == false)
         {
             rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
+            isJumping = false;
+            isFalling = true;
         }
     }
 
@@ -198,6 +205,7 @@ public class Movement : MonoBehaviour
                 if(isMoving == false)
                 {
                     isMoving = true;
+                    isIdle = false;
                     Debug.Log("isMoving set to TRUE!");
                 }
             }            
@@ -206,9 +214,12 @@ public class Movement : MonoBehaviour
             if(isMoving == true)
             {
                 isMoving = false;
-                Debug.Log("isMoving set to FALSE");
+                isIdle = true;
+                Debug.Log("isMoving set to FALSE & isIdle set to TRUE");
             }
         }
+        CheckIdle();
+
     }
 
     private void Run()
@@ -225,6 +236,17 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonUp("Run") && isRunning == true)
         {
             isRunning = false;
+        }
+    }
+
+    private void CheckIdle()
+    {
+        if(isGrounded == true && isIdle == false)
+        {
+            if(isMoving && isRunning && isRolling && isDashing == false)
+            {
+                isIdle = true;
+            }
         }
     }
 }
