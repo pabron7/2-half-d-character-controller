@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     public Rigidbody rb;
     public GameObject foot;
     public GameObject sidesCheck;
+    public GameObject characterRenderer;
 
     [Header("Character Sprites")]
     public Sprite characterFront;
@@ -15,17 +16,19 @@ public class Movement : MonoBehaviour
     public Sprite characterLeft;
     public Sprite characterRight;
 
-    [Header("CharacterStats")]
+    [Header("CharacterStatues")]
     public bool isDashing;
     public bool isRolling;
     public bool isGrounded;
     public bool isMoving;
     public bool isMovingUp;
     public bool isMovingRight;
+    public bool isRunning;
     public int remainingJumpTimes;
 
     [Header("Movement Stats")]
     public float moveSpeed;
+    public float runSpeed;
     public float jumpForce;
     public int maxJumpTimes;
 
@@ -46,13 +49,14 @@ public class Movement : MonoBehaviour
     {
         remainingJumpTimes = maxJumpTimes;
         trailRenderer = GetComponent<TrailRenderer>();
+        characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //override any other movement action while rolling&dashing
+        //override any other movement action while rolling & dashing
         if (isDashing || isRolling) { return; }
 
         ReadInput();
@@ -76,7 +80,6 @@ public class Movement : MonoBehaviour
 
                 Debug.Log("isGrounded set to TRUE && Jump Times are refreshed!");
             }
-
         }
     }
 
@@ -122,10 +125,21 @@ public class Movement : MonoBehaviour
     }
 
     private void Move()
+        
     {
-        rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
-        FlipCharacter();
-        checkMovement();
+        CheckRun();
+
+        if (isRunning && isGrounded)
+        {
+            Debug.Log("trying to run");
+            Run();
+        }
+        else
+        {
+            rb.velocity = new Vector3(moveInput.x * moveSpeed, rb.velocity.y, moveInput.y * moveSpeed);
+        }
+            checkRotation();
+            CheckMovement();   
     }
 
     private void DashRoll()
@@ -153,27 +167,31 @@ public class Movement : MonoBehaviour
         moveInput.Normalize();
     }
 
-    private void FlipCharacter()
+    private void checkRotation()
     {
         if (moveInput.y > 0.01 && isMovingUp == false)
         {
             isMovingUp = true;
+            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterBack;
         }
         if (moveInput.y < 0 && isMovingUp == true)
         {
             isMovingUp = false;
+            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
         }
         if (moveInput.x > 0.01 && isMovingRight == false)
         {
             isMovingRight = true;
+            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterRight;
         }
         if (moveInput.x < 0 && isMovingRight == true)
         {
             isMovingRight = false;
+            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterLeft;
         }
     }
 
-    private void checkMovement()
+    private void CheckMovement()
     {  
         if (moveInput.magnitude > 0)
             {
@@ -190,6 +208,23 @@ public class Movement : MonoBehaviour
                 isMoving = false;
                 Debug.Log("isMoving set to FALSE");
             }
+        }
+    }
+
+    private void Run()
+    {
+        rb.velocity = new Vector3(moveInput.x * runSpeed, rb.velocity.y, moveInput.y * runSpeed);
+    }
+
+    private void CheckRun()
+    {
+        if (Input.GetButtonDown("Run") && isRunning ==false)
+        {
+            isRunning = true;
+        }
+        if (Input.GetButtonUp("Run") && isRunning == true)
+        {
+            isRunning = false;
         }
     }
 }
