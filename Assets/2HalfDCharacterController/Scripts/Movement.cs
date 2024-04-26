@@ -7,8 +7,9 @@ public class Movement : MonoBehaviour
     [Header("Attach game objects")]
     public Rigidbody rb;
     public GameObject foot;
-    public GameObject sidesCheck;
     public GameObject characterRenderer;
+    public Animator characterAnimator;
+    
 
     [Header("Character Sprites")]
     public Sprite characterFront;
@@ -28,6 +29,10 @@ public class Movement : MonoBehaviour
     public bool isFalling;
     public bool isJumping;
     public int remainingJumpTimes;
+
+    [Header("CharacterAnimations")]
+    public AnimationClip charAnimFrontIdle;
+    public AnimationClip charAnimFrontRun;
 
     [Header("Movement Stats")]
     public float moveSpeed;
@@ -210,6 +215,7 @@ public class Movement : MonoBehaviour
                 {
                     isMoving = true;
                     isIdle = false;
+                    SetAnimation("orange-front-run");
                     Debug.Log("isMoving set to TRUE!");
                 }
             }            
@@ -219,6 +225,7 @@ public class Movement : MonoBehaviour
             {
                 isMoving = false;
                 isIdle = true;
+                SetAnimation("orange-front-idle");
                 Debug.Log("isMoving set to FALSE & isIdle set to TRUE");
             }
         }
@@ -254,8 +261,14 @@ public class Movement : MonoBehaviour
                 if(isGrounded == true)
                 {
                     isIdle = true;
+                    
                 }    
             }
         }
+    }
+
+   private void SetAnimation(string animName)
+    {
+        characterAnimator.Play(animName);
     }
 }
