@@ -34,6 +34,7 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 
 ###### USEFUL LINKS
 > [Coroutine & IEnumerator](https://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html "Unity Documentation")
+> [Animator](https://docs.unity3d.com/ScriptReference/Animator.html)
 
 ***
 ### WHAT'S NEXT?
