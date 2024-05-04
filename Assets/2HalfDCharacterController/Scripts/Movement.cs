@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     public GameObject foot;
     public GameObject characterRenderer;
     public Animator characterAnimator;
+    public StateController state;
     
 
     [Header("Character Sprites")]
@@ -18,16 +19,16 @@ public class Movement : MonoBehaviour
     public Sprite characterRight;
 
     [Header("CharacterStatues")]
-    public bool isDashing;
-    public bool isRolling;
+    private bool isDashing;
+    private bool isRolling;
     public bool isGrounded;
-    public bool isMoving;
-    public bool isMovingUp;
-    public bool isMovingRight;
-    public bool isRunning;
-    public bool isIdle;
-    public bool isFalling;
-    public bool isJumping;
+    private bool isMoving;
+    private bool isMovingUp;
+    private bool isMovingRight;
+    private bool isRunning;
+    private bool isIdle;
+    private bool isFalling;
+    private bool isJumping;
     public int remainingJumpTimes;
 
     [Header("CharacterAnimations")]
@@ -57,10 +58,10 @@ public class Movement : MonoBehaviour
     {
         remainingJumpTimes = maxJumpTimes;
         trailRenderer = GetComponent<TrailRenderer>();
-        characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
+   
     }
 
-    // Update is called once per frame
+
     void Update()
     {
 
@@ -188,22 +189,22 @@ public class Movement : MonoBehaviour
         if (moveInput.y > 0.01 && isMovingUp == false)
         {
             isMovingUp = true;
-            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterBack;
+           // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterBack;
         }
         if (moveInput.y < 0 && isMovingUp == true)
         {
             isMovingUp = false;
-            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
+            // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
         }
         if (moveInput.x > 0.01 && isMovingRight == false)
         {
             isMovingRight = true;
-            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterRight;
+           // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterRight;
         }
         if (moveInput.x < 0 && isMovingRight == true)
         {
             isMovingRight = false;
-            characterRenderer.GetComponent<SpriteRenderer>().sprite = characterLeft;
+           // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterLeft;
         }
     }
 
@@ -215,8 +216,11 @@ public class Movement : MonoBehaviour
                 {
                     isMoving = true;
                     isIdle = false;
+                
+                    state.SetMovementState("move", true);
+                    state.SetMovementState("idle", false);
                     SetAnimation("orange-front-run");
-                    Debug.Log("isMoving set to TRUE!");
+                    
                 }
             }            
         if (rb.velocity.x == 0 && rb.velocity.z == 0)
@@ -225,6 +229,7 @@ public class Movement : MonoBehaviour
             {
                 isMoving = false;
                 isIdle = true;
+                state.SetMovementState("idle", true);
                 SetAnimation("orange-front-idle");
                 Debug.Log("isMoving set to FALSE & isIdle set to TRUE");
             }
