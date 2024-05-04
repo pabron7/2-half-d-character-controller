@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour
     public GameObject characterRenderer;
     public Animator characterAnimator;
     public StateController state;
-    
 
     [Header("Character Sprites")]
     public Sprite characterFront;
@@ -19,16 +18,6 @@ public class Movement : MonoBehaviour
     public Sprite characterRight;
 
     [Header("CharacterStatues")]
-    private bool isDashing;
-    private bool isRolling;
-    public bool isGrounded;
-    private bool isMoving;
-    private bool isMovingUp;
-    private bool isMovingRight;
-    private bool isRunning;
-    private bool isIdle;
-    private bool isFalling;
-    private bool isJumping;
     public int remainingJumpTimes;
 
     [Header("CharacterAnimations")]
@@ -66,7 +55,7 @@ public class Movement : MonoBehaviour
     {
 
         //override any other movement action while rolling & dashing
-        if (isDashing || isRolling) { return; }
+        if (state.GetMovementState("dash") == true || state.GetMovementState("roll") == true) { return; }
 
         ReadInput();
 
@@ -82,15 +71,14 @@ public class Movement : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
-            if (isGrounded == false)
+            if (state.GetGroundState() == false)
             {
-                isGrounded = true;
-                isJumping = false;
-                isFalling = false;
+                state.SetGroundState(true);
+                state.SetMovementState("jump", false);
+                state.SetMovementState("fall", false);
 
                 remainingJumpTimes = maxJumpTimes;
-
-                Debug.Log("isGrounded set to TRUE && Jump Times are refreshed!");
+                Debug.Log("Successfuly landed & Jump Times are refreshed!");
             }
             CheckIdle();
         }
@@ -98,13 +86,13 @@ public class Movement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        isDashing = true;
-        isMoving = false;
-        isIdle = false;
+        state.SetMovementState("dash", true);
+        state.SetMovementState("move", false);
+        state.SetMovementState("idle", false);
         trailRenderer.emitting = true;
         rb.velocity = new Vector3(moveInput.x * dashSpeed, rb.velocity.y, moveInput.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
-        isDashing = false;
+        state.SetMovementState("dash", false);
         trailRenderer.emitting = false;
     }
 
@@ -112,12 +100,12 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetButtonDown("Dash"))
         {
-            isRolling = true;
-            isMoving = false;
-            isIdle = false;
+            state.SetMovementState("roll", true);
+            state.SetMovementState("move", false);
+            state.SetMovementState("idle", false);
             rb.velocity = new Vector3(moveInput.x * rollSpeed, rb.velocity.y, moveInput.y * rollSpeed);
             yield return new WaitForSeconds(rollDuration);
-            isRolling = false;
+            state.SetMovementState("roll", false);
         }
     }
 
@@ -126,18 +114,18 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && remainingJumpTimes > 1)
         {
             Debug.Log("trying to jump");
-            isJumping = true;
-            isFalling = false;
-            isIdle = false;
+            state.SetMovementState("jump", true);
+            state.SetMovementState("fall", false);
+            state.SetMovementState("idle", false);
             rb.velocity += new Vector3(0f, jumpForce, 0f);
             remainingJumpTimes--;
         }
         //reduces jump velocity when button is released
-        else if (Input.GetButtonUp("Jump") && isGrounded == false)
+        else if (Input.GetButtonUp("Jump") && state.GetGroundState() == false)
         {
             rb.velocity -= new Vector3(0f, jumpForce * 0.55f, 0f); Debug.Log("jump force decreased");
-            isJumping = false;
-            isFalling = true;
+            state.SetMovementState("jump", false);
+            state.SetMovementState("fall", true);
         }
     }
 
@@ -146,7 +134,7 @@ public class Movement : MonoBehaviour
     {
         CheckRun();
 
-        if (isRunning && isGrounded)
+        if (state.GetMovementState("run") == true && state.GetGroundState() == true)
         {
             Debug.Log("trying to run");
             Run();
@@ -163,7 +151,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetButtonDown("Dash"))
         {
-            if (isGrounded == true)
+            if (state.GetGroundState() == true)
             {
                 Debug.Log("trying to roll");
                 StartCoroutine(Roll());
@@ -186,25 +174,25 @@ public class Movement : MonoBehaviour
 
     private void checkRotation()
     {
-        if (moveInput.y > 0.01 && isMovingUp == false)
+        if (moveInput.y > 0.01 && state.GetVerticalState()==false)
         {
-            isMovingUp = true;
+            state.SetVerticalState(true);
            // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterBack;
         }
-        if (moveInput.y < 0 && isMovingUp == true)
+        if (moveInput.y < 0 && state.GetVerticalState() == true)
         {
-            isMovingUp = false;
+            state.SetVerticalState(false);
             // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterFront;
         }
-        if (moveInput.x > 0.01 && isMovingRight == false)
+        if (moveInput.x > 0.01 && state.GetHorizontalState() == false)
         {
-            isMovingRight = true;
-           // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterRight;
+            state.SetHorizontalState(true);
+            // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterRight;
         }
-        if (moveInput.x < 0 && isMovingRight == true)
+        if (moveInput.x < 0 && state.GetHorizontalState() == true)
         {
-            isMovingRight = false;
-           // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterLeft;
+            state.SetHorizontalState(false);
+            // characterRenderer.GetComponent<SpriteRenderer>().sprite = characterLeft;
         }
     }
 
@@ -212,31 +200,28 @@ public class Movement : MonoBehaviour
     {  
         if (moveInput.magnitude > 0)
             {
-                if(isMoving == false && isGrounded)
+                if(state.GetMovementState("move") == false && state.GetGroundState() == true)
                 {
-                    isMoving = true;
-                    isIdle = false;
-                
                     state.SetMovementState("move", true);
                     state.SetMovementState("idle", false);
-                    SetAnimation("orange-front-run");
-                    
+                    SetAnimation("orange-front-run");                   
                 }
             }            
+
         if (rb.velocity.x == 0 && rb.velocity.z == 0)
         {
-            if(isMoving == true)
+            if(state.GetMovementState("move") == true)
             {
-                isMoving = false;
-                isIdle = true;
+                state.SetMovementState("move", false);
                 state.SetMovementState("idle", true);
                 SetAnimation("orange-front-idle");
+
                 Debug.Log("isMoving set to FALSE & isIdle set to TRUE");
             }
         }
-        if (!isGrounded)
+        if (state.GetGroundState()==false)
         {
-            isMoving = false;
+            state.SetMovementState("move", false);
         }
     }
 
@@ -247,25 +232,25 @@ public class Movement : MonoBehaviour
 
     private void CheckRun()
     {
-        if (Input.GetButtonDown("Run") && isRunning ==false)
+        if (Input.GetButtonDown("Run") && state.GetMovementState("run") == false)
         {
-            isRunning = true;
+            state.SetMovementState("run", true);
         }
-        if (Input.GetButtonUp("Run") && isRunning == true)
+        if (Input.GetButtonUp("Run") && state.GetMovementState("run") == true)
         {
-            isRunning = false;
+            state.SetMovementState("run", false);
         }
     }
 
     private void CheckIdle()
     {
-        if(isGrounded == true && isIdle == false)
+        if(state.GetGroundState() == true && state.GetMovementState("idle") == false)
         {
-            if(!isMoving && !isRunning && !isRolling)
+            if(state.GetMovementState("move") == false && state.GetMovementState("run") == false)
             {
-                if(isGrounded == true)
+                if(state.GetGroundState() == true)
                 {
-                    isIdle = true;
+                    state.SetGroundState(true);
                     
                 }    
             }

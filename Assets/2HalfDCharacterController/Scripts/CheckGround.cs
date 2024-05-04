@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckGround : MonoBehaviour
 {
-    public Movement _movement;
+    public Movement movement;
     public StateController state;
     
 
@@ -12,11 +12,11 @@ public class CheckGround : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
-             //_movement.isGrounded = false;
+            state.SetGroundState(false);
 
-            if (state.GetMovementState("ground"))
+            if (state.GetGroundState() == true)
             {
-                state.SetMovementState("ground", false);
+                state.SetGroundState(false);
                 Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
             }
             

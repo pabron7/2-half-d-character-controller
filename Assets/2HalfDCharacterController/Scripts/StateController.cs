@@ -4,16 +4,48 @@ using UnityEngine;
 
 public class StateController : MonoBehaviour
 {
-    public StateRenderer renderer;
+    public StateRenderer stateRenderer;
 
     [Header("Movement Stats")]
     private bool isDashing;
+    private void SetIsDashing(bool value)
+    {
+        isDashing = value;
+    }
     private bool isRolling;
+    private void SetIsRolling(bool value)
+    {
+        isRolling = value;
+    }
     private bool isMoving;
+    private void SetIsMoving(bool value)
+    {
+        isMoving = value;
+    }
+
     private bool isRunning;
+    private void SetIsRunning(bool value)
+    {
+        isRunning = value;
+    }
+
     private bool isIdle;
+    private void SetIsIdle(bool value)
+    {
+        isIdle = value;
+    }
+
     private bool isFalling;
+    private void SetIsFalling(bool value)
+    {
+        isFalling = value;
+    }
+
     private bool isJumping;
+    private void SetIsJumping(bool value)
+    {
+        isJumping = value;
+    }
 
     [Header("Rotation Stats")]
     private bool isMovingUp;
@@ -26,83 +58,65 @@ public class StateController : MonoBehaviour
     public string movementState;
     public string movementRotation;
 
-    private void Start()
-    {
-        renderer.UpdateStateRenderer();
-    }
-
     /// <summary>
     /// Checks the state of the movement according to the given parameter and returns a boolean. Simply provide a string of the following to see their current state; move, jump, fall, roll, dash, run, idle.
     /// </summary>
-    /// <param name="_state"></param>
+    /// <param name="state"></param>
     /// <returns></returns>
-    public bool GetMovementState(string _state) {
+    public bool GetMovementState(string state) {
 
-        bool askedState = false;
-
-        switch (_state)
+        switch (state)
         {
             case "move":
-                CheckState(isMoving);
-                break;
+                return isMoving;
             case "jump":
-                CheckState(isJumping);
-                break;
+                return isJumping;
             case "fall":
-                CheckState(isFalling);
-                break;
+                return isFalling; 
             case "roll":
-                CheckState(isRolling);
-                break;
+                return isRolling;
             case "dash":
-                CheckState(isDashing);
-                break;
+                return isDashing;
             case "run":
-                CheckState(isRunning);
-                break;
+                return isRunning;
             case "idle":
-                CheckState(isIdle);
-                break;
+                return isIdle;
+            default:
+                return false;
         }
-        return askedState;
     }
 
     /// <summary>
     /// Sets movement state according to the given parameters name and status. Simply provide a decision (true or false) and one of the following names; move, jump, fall, roll, dash, run, idle.
     /// </summary>
     /// <param name="name"></param>
-    /// <param name="status"></param>
-    public void SetMovementState(string name, bool status)
+    /// <param name="value"></param>
+    public void SetMovementState(string name, bool value)
     {
-        
         switch (name)
         {
             case "move":
-                WriteState(isMoving, status);
+                SetIsMoving(value);
                 break;
             case "jump":
-                WriteState(isJumping, status);
+                SetIsJumping(value);
                 break;
             case "fall":
-                WriteState(isFalling, status);
+                SetIsFalling(value);
                 break;
             case "roll":
-                WriteState(isRolling, status);
+                SetIsRolling(value);
                 break;
             case "dash":
-                WriteState(isDashing, status);
+                SetIsDashing(value);
                 break;
             case "run":
-                WriteState(isRunning, status);
+                SetIsRunning(value);
                 break;
             case "idle":
-                WriteState(isIdle, status);
+                SetIsIdle(value);
                 break;
         }
-
-        // <---LOGIC--->
-        // This function determines the current state by using the local Setter function WriteState()
-        // <---END LOGIC--->
     }
 
     /// <summary>
@@ -163,25 +177,6 @@ public class StateController : MonoBehaviour
     }
 
     /// <summary>
-    /// This function requires a boolean and returns it's current state.
-    /// </summary>
-    /// <param name="checkedState"></param>
-    /// <returns></returns>
-    private bool CheckState(bool checkedState)
-    {
-        bool askedState;
-
-        if (checkedState == true) {
-            askedState = true;
-        }
-        else {
-            askedState = false;
-        }
-
-        return askedState;
-    }
-
-    /// <summary>
     /// This function requires two booleans. The first is to be written and the second is the desired value.
     /// </summary>
     /// <param name="checkedState"></param>
@@ -190,6 +185,7 @@ public class StateController : MonoBehaviour
     {
         checkedState = decision;
         AlertStateChange(checkedState, decision);
+        stateRenderer.UpdateStateRenderer();
     }
 
     /// <summary>
@@ -200,6 +196,7 @@ public class StateController : MonoBehaviour
     private void AlertStateChange(bool updatedState, bool decision)
     {
         Debug.Log(updatedState.ToString() + " set to " + decision);
+        Debug.Log(" TEST");
     }
 
     private void SetCurrentMovement(string _state)
