@@ -8,51 +8,98 @@ public class StateController : MonoBehaviour
 
     [Header("Movement Stats")]
     private bool isDashing;
-    private void SetIsDashing(bool value)
+    private void setIsDashing(bool value)
     {
-        isDashing = value;
+        isDashing = value;  
     }
     private bool isRolling;
-    private void SetIsRolling(bool value)
+    private void setIsRolling(bool value)
     {
-        isRolling = value;
+        isRolling = value; 
     }
     private bool isMoving;
-    private void SetIsMoving(bool value)
+    private void setIsMoving(bool value)
     {
         isMoving = value;
     }
-
     private bool isRunning;
-    private void SetIsRunning(bool value)
+    private void setIsRunning(bool value)
     {
-        isRunning = value;
+        isRunning = value; 
     }
-
     private bool isIdle;
-    private void SetIsIdle(bool value)
+    private void setIsIdle(bool value)
     {
-        isIdle = value;
+        isIdle = value; 
     }
-
     private bool isFalling;
-    private void SetIsFalling(bool value)
+    private void setIsFalling(bool value)
     {
         isFalling = value;
     }
-
     private bool isJumping;
-    private void SetIsJumping(bool value)
+    private void setIsJumping(bool value)
     {
-        isJumping = value;
+        isJumping = value; 
     }
 
     [Header("Rotation Stats")]
     private bool isMovingUp;
+    /// <summary>
+    /// Checks isMovingRight and returns either true or false. True means character is facing right side while false means character is facing the left side.
+    /// </summary>
+    /// <returns></returns>
+    public bool GetVerticalState()
+    {
+        return isMovingUp;
+    }
+    /// <summary>
+    /// This function sets Vertical Movement state according to the given parameter. Simply provide a true or false as you need.
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetVerticalState(bool value)
+    {
+        if (value == true) { this.isMovingUp = true; }
+        else { this.isMovingUp = false; }
+    }
+
     private bool isMovingRight;
+    /// <summary>
+    /// Checks isMovingUp and returns either true or false. True means character is facing top side while false means character is facing the bot side. In another saying, true means the player see the back of the character while the other case means the player is seeing the face of the character.
+    /// </summary>
+    /// <returns></returns>
+    public bool GetHorizontalState()
+    {
+        return isMovingRight;
+    }
+    /// <summary>
+    /// This function sets Horizontal Movement state according to the given parameter. Simply provide a true or false as you need.
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetHorizontalState(bool value)
+    {
+        if (value == true) { this.isMovingRight = true; }
+        else { this.isMovingRight = false; }
+    }
 
     [Header("Ground")]
     private bool isGrounded;
+    /// <summary>
+    /// This function sets isGrounded state according to the given parameter. Simply provide a true or false as you need.
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetIsGrounded(bool value)
+    {
+        isGrounded = value;
+    }
+    /// <summary>
+    /// Checks isGrounded and returns either true or false.
+    /// </summary>
+    /// <returns></returns>
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
 
     [Header("Public Stats")]
     public string movementState;
@@ -64,7 +111,6 @@ public class StateController : MonoBehaviour
     /// <param name="state"></param>
     /// <returns></returns>
     public bool GetMovementState(string state) {
-
         switch (state)
         {
             case "move":
@@ -96,95 +142,35 @@ public class StateController : MonoBehaviour
         switch (name)
         {
             case "move":
-                SetIsMoving(value);
+                setIsMoving(value);
+                alertStateChange(value, name);
                 break;
             case "jump":
-                SetIsJumping(value);
+                setIsJumping(value);
+                alertStateChange(value, name);
                 break;
             case "fall":
-                SetIsFalling(value);
+                setIsFalling(value);
+                alertStateChange(value, name);
                 break;
             case "roll":
-                SetIsRolling(value);
+                setIsRolling(value);
+                alertStateChange(value, name);
                 break;
             case "dash":
-                SetIsDashing(value);
+                setIsDashing(value);
+                alertStateChange(value, name);
                 break;
             case "run":
-                SetIsRunning(value);
+                setIsRunning(value);
+                alertStateChange(value, name);
                 break;
             case "idle":
-                SetIsIdle(value);
+                setIsIdle(value);
+                alertStateChange(value, name);
                 break;
         }
-    }
 
-    /// <summary>
-    /// Checks isGrounded and returns either true or false.
-    /// </summary>
-    /// <returns></returns>
-    public bool GetGroundState() {
-        if (this.isGrounded == true) { return true; }
-        else { return false; }
-    }
-
-    /// <summary>
-    /// Checks isMovingUp and returns either true or false. True means character is facing top side while false means character is facing the bot side. In another saying, true means the player see the back of the character while the other case means the player is seeing the face of the character.
-    /// </summary>
-    /// <returns></returns>
-    public bool GetHorizontalState() {
-        if (this.isMovingUp == true) { return true; }
-        else { return false; }
-    }
-
-    /// <summary>
-    /// Checks isMovingRight and returns either true or false. True means character is facing right side while false means character is facing the left side.
-    /// </summary>
-    /// <returns></returns>
-    public bool GetVerticalState() {
-        if (this.isMovingRight == true) { return true; }
-        else { return false; }
-    }
-
-    /// <summary>
-    /// This function sets isGrounded state according to the given parameter. Simply provide a true or false as you need.
-    /// </summary>
-    /// <param name="decision"></param>
-    public void SetGroundState(bool decision)
-    {
-        if (decision == true) { this.isGrounded = true; }
-        else { this.isGrounded = false; }
-    }
-
-    /// <summary>
-    /// This function sets Horizontal Movement state according to the given parameter. Simply provide a true or false as you need.
-    /// </summary>
-    /// <param name="decision"></param>
-    public void SetHorizontalState(bool decision)
-    {
-        if (decision == true) { this.isMovingRight = true; }
-        else { this.isMovingRight = false; }
-    }
-
-    /// <summary>
-    /// This function sets Vertical Movement state according to the given parameter. Simply provide a true or false as you need.
-    /// </summary>
-    /// <param name="decision"></param>
-    public void SetVerticalState(bool decision)
-    {
-        if (decision == true) { this.isMovingUp = true; }
-        else { this.isMovingUp = false; }
-    }
-
-    /// <summary>
-    /// This function requires two booleans. The first is to be written and the second is the desired value.
-    /// </summary>
-    /// <param name="checkedState"></param>
-    /// <param name="decision"></param>
-    private void WriteState(bool checkedState, bool decision)
-    {
-        checkedState = decision;
-        AlertStateChange(checkedState, decision);
         stateRenderer.UpdateStateRenderer();
     }
 
@@ -192,57 +178,19 @@ public class StateController : MonoBehaviour
     /// This function updates the state changes in the console, can be toggled on and off.
     /// </summary>
     /// <param name="updatedState"></param>
-    /// <param name="decision"></param>
-    private void AlertStateChange(bool updatedState, bool decision)
+    /// <param name="value"></param>
+    private void alertStateChange(bool value, string name)
     {
-        Debug.Log(updatedState.ToString() + " set to " + decision);
-        Debug.Log(" TEST");
+        Debug.Log("State Controller Update: " + name + " set to " + value);
     }
 
-    private void SetCurrentMovement(string _state)
+    private void setCurrentMovement(string _state)
     {
         movementState = _state;
     }
 
-    private void SetCurrentRotation(string _rotation)
+    private void setCurrentRotation(string _rotation)
     {
         movementRotation = _rotation;
-    }
-
-    public bool CheckCurrentMovementState(string name, bool status)
-    {
-        bool askedState = status;
-
-        switch (name)
-        {
-            case "move":
-                WriteState(isMoving, status);
-                break;
-            case "jump":
-                WriteState(isJumping, status);
-                break;
-            case "fall":
-                WriteState(isFalling, status);
-                break;
-            case "roll":
-                WriteState(isRolling, status);
-                break;
-            case "dash":
-                WriteState(isDashing, status);
-                break;
-            case "run":
-                WriteState(isRunning, status);
-                break;
-            case "idle":
-                WriteState(isIdle, status);
-                break;
-        }
-        return askedState;
-
-        // <---LOGIC--->
-
-        // This function returns a boolean
-
-        // <---END LOGIC--->
     }
 }

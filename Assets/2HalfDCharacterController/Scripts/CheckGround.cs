@@ -12,11 +12,11 @@ public class CheckGround : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
-            state.SetGroundState(false);
+            state.SetIsGrounded(false);
 
-            if (state.GetGroundState() == true)
+            if (state.GetIsGrounded() == true)
             {
-                state.SetGroundState(false);
+                state.SetIsGrounded(false);
                 Debug.Log("isGrounded set to FALSE for exiting the GroundObject!");
             }
             

@@ -22,26 +22,39 @@ public class StateRenderer : MonoBehaviour
     public TextMeshProUGUI horizontalUI;
     public TextMeshProUGUI verticalUI;
 
+    private Dictionary<string, TextMeshProUGUI> stateTexts;
 
-    /// <summary>
-    /// This function updates States Renderer UI. Simply implement it under state changers.
-    /// </summary>
+    // Define colors as static readonly fields
+    private Color32 activeColor = new Color32(5, 255, 0, 255);
+    private Color32 inactiveColor = new Color32(255, 0, 20, 255);
+
+    void Start()
+    {
+        stateTexts = new Dictionary<string, TextMeshProUGUI>
+        {
+            {"idle", idleUI}, {"move", moveUI}, {"run", runUI}, {"jump", jumpUI},
+            {"fall", fallUI}, {"dash", dashUI}, {"roll", rollUI},
+            {"ground", groundUI}, {"horizontal", horizontalUI}, {"vertical", verticalUI}
+        };
+    }
+
     public void UpdateStateRenderer()
     {
-        idleUI.text = CreateUIText("idle", state.GetMovementState("idle"));
-        moveUI.text = CreateUIText("move", state.GetMovementState("move"));
-        runUI.text = CreateUIText("run", state.GetMovementState("run"));
-        jumpUI.text = CreateUIText("jump", state.GetMovementState("jump"));
-        fallUI.text = CreateUIText("fall", state.GetMovementState("fall"));
-        rollUI.text = CreateUIText("roll", state.GetMovementState("roll"));
-        dashUI.text = CreateUIText("dash", state.GetMovementState("dash"));
-        groundUI.text = CreateUIText("ground", state.GetMovementState("ground"));
-        horizontalUI.text = CreateUIText("horizontal", state.GetMovementState("horizontal"));
-        verticalUI.text = CreateUIText("vertical", state.GetMovementState("vertical"));
+        foreach (var entry in stateTexts)
+        {
+            bool isActive = state.GetMovementState(entry.Key);
+            entry.Value.text = CreateUIText(entry.Key, isActive);
+            entry.Value.color = isActive ? activeColor : inactiveColor;
+        }
+        if (state.GetIsGrounded())
+        {
+            groundUI.text = CreateUIText("ground", state.GetIsGrounded());
+            groundUI.color = state.GetIsGrounded() ? activeColor : inactiveColor;
+        }
     }
 
     private string CreateUIText(string name, bool state)
     {
-        return name + ": " + state;
+        return $"{name}: {state}";
     }
 }
