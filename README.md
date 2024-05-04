@@ -5,7 +5,7 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 ###### TECHNOLOGY
 > Unity, C#
 ---
-###FEATURES
+### FEATURES
 * 2 Axis movement
 * Jump, Multiple Jump (Editable)
 * Run
@@ -35,6 +35,8 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 ###### USEFUL LINKS
 > [Coroutine & IEnumerator](https://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html "Unity Documentation")
 > [Animator](https://docs.unity3d.com/ScriptReference/Animator.html)
+> [VerticalLayoutGroup](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-VerticalLayoutGroup.html)
+> [Observer Pattern](https://unity.com/how-to/create-modular-and-maintainable-code-observer-pattern)
 
 ***
 ### WHAT'S NEXT?
