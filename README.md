@@ -37,6 +37,7 @@ a tool that comes with a ready-to-go isometric top-down 2D character in the 3D e
 > [Animator](https://docs.unity3d.com/ScriptReference/Animator.html)
 > [VerticalLayoutGroup](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-VerticalLayoutGroup.html)
 > [Observer Pattern](https://unity.com/how-to/create-modular-and-maintainable-code-observer-pattern)
+> [The Finite State Machine Pattern](https://unity.com/how-to/develop-modular-flexible-codebase-state-programming-pattern#example-state)
 
 ***
 ### WHAT'S NEXT?
